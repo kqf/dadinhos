@@ -1,3 +1,4 @@
+import math
 import random
 from dataclasses import dataclass
 from typing import Callable, Generic, TypeVar
@@ -42,6 +43,22 @@ def _sample_xy(
     x = random.uniform(0.0, 1.0 - w * (not allow_on_border))
     y = random.uniform(0.0, 1.0 - h * (not allow_on_border))
     return x, y
+
+
+def distribution_count(minimum=1, average=5):
+    return max(0, int(random.poisson(average))) + minimum
+
+
+def distribution_size():
+    log_min, log_max = math.log(0.001), math.log(0.05)
+    area = math.exp(random.uniform(log_min, log_max))
+
+    log_ratio = random.uniform(math.log(0.5), math.log(2.0))
+    ratio = math.exp(log_ratio)
+
+    w = (area * ratio) ** 0.5
+    h = (area / ratio) ** 0.5
+    return w, h
 
 
 def make_objects(
