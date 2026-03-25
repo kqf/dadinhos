@@ -2,6 +2,7 @@ import math
 import random
 from dataclasses import dataclass
 from typing import Callable, Generic, TypeVar
+import numpy as np
 
 RelativeXYXY = tuple[float, float, float, float]
 
@@ -46,7 +47,7 @@ def _sample_xy(
 
 
 def distribution_count(minimum=1, average=5):
-    return max(0, int(random.poisson(average))) + minimum
+    return max(0, int(np.random.poisson(average))) + minimum
 
 
 def distribution_size():
@@ -65,8 +66,8 @@ def make_objects(
     distribution_count: Callable[[], int],
     distribution_size: Callable[[], tuple[float, float]],
     n_samples: int,
-    allow_overlaps: bool,
-    allow_on_border: bool,
+    allow_overlaps: bool = False,
+    allow_on_border: bool = False,
 ) -> list[Sample[Annotation]]:
     output = []
     max_attempts = 100
