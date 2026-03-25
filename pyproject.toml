@@ -33,7 +33,7 @@ strict = false
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-addopts = "--cov=detectinhos --cov-report=term-missing"
+addopts = "--cov-report=term-missing"
 
 [build-system]
 requires = ["setuptools", "wheel", "setuptools_scm"]
@@ -41,9 +41,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 # NB: Keep it the same as in PyPI
-name = "detectinhos"
+name = "detasks"
 dynamic = ["version"]
-description = "Single Shot Detector training boilerplate pipeline"
+description = "Create detection task"
 dependencies = [
     "opencv-python",
     "numpy<2",
@@ -51,17 +51,10 @@ dependencies = [
     "torchvision",
     "dacite",
     "dataclasses-json",
-    "torchvision",
     "mean-average-precision",
     "toolz",
 ]
 readme = "README.rst"
-
-[project.scripts]
-detectinhos = "detectinhos.cli:main"
-
-[tool.setuptools]
-packages = ["detectinhos"]
 
 [tool.setuptools_scm]
 version_scheme = "post-release" # Uses Git tags for versioning
