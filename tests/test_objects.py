@@ -36,8 +36,8 @@ def plot(frame: np.ndarray, sample: Sample[Annotation]) -> np.ndarray:
 def test_objects():
     samples = make_objects(
         n_samples=10,
-        distribution_count=distribution_count,
-        distribution_size=distribution_size,
+        draw_count=distribution_count,
+        draw_size=distribution_size,
     )
     # sourcery skip: no-loop-in-tests
     for sample in samples:
