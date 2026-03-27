@@ -63,9 +63,38 @@ def distribution_size():
     return w, h
 
 
+def draw_object(
+    max_attempts,
+    allow_on_border,
+    allow_overlaps,
+    annotations,
+    generate_size,
+):
+    for _ in range(max_attempts):
+        w, h = generate_size()
+        w = min(max(w, 1e-6), 1.0)
+        h = min(max(h, 1e-6), 1.0)
+
+        if w >= 1.0 or h >= 1.0:
+            continue
+
+        x, y = _sample_xy(w, h, allow_on_border)
+        bbox = (x, y, x + w, y + h)
+
+        if not allow_on_border and not _inside_unit(bbox):
+            continue
+
+        if not allow_overlaps and any(
+            _intersects(bbox, ann.bbox) for ann in annotations
+        ):
+            continue
+        return bbox
+    return None
+
+
 def make_objects(
-    distribution_count: Callable[[], int],
-    distribution_size: Callable[[], tuple[float, float]],
+    draw_count: Callable[[], int],
+    draw_size: Callable[[], tuple[float, float]],
     n_samples: int,
     allow_overlaps: bool = False,
     allow_on_border: bool = False,
@@ -74,37 +103,28 @@ def make_objects(
     max_attempts = 100
 
     for i in range(n_samples):
-        n_objects = distribution_count()
+        n_objects = draw_count()
         annotations: list[Annotation] = []
 
         for _ in range(n_objects):
-            for _ in range(max_attempts):
-                w, h = distribution_size()
-                w = min(max(w, 1e-6), 1.0)
-                h = min(max(h, 1e-6), 1.0)
+            bbox = draw_object(
+                max_attempts=max_attempts,
+                allow_on_border=allow_on_border,
+                allow_overlaps=allow_overlaps,
+                annotations=annotations,
+                generate_size=draw_size,
+            )
 
-                if w >= 1.0 or h >= 1.0:
-                    continue
+            if bbox is None:
+                continue
 
-                x, y = _sample_xy(w, h, allow_on_border)
-                bbox = (x, y, x + w, y + h)
-
-                if not allow_on_border and not _inside_unit(bbox):
-                    continue
-
-                if not allow_overlaps and any(
-                    _intersects(bbox, ann.bbox) for ann in annotations
-                ):
-                    continue
-
-                annotations.append(
-                    Annotation(
-                        bbox=bbox,
-                        label="1",
-                        score=0.0,
-                    )
+            annotations.append(
+                Annotation(
+                    bbox=bbox,
+                    label="1",
+                    score=0.0,
                 )
-                break
+            )
 
         output.append(Sample(file_name=f"{i}.png", annotations=annotations))
 
