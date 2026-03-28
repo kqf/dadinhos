@@ -106,7 +106,7 @@ def make_objects(
         n_objects = draw_count()
         annotations: list[Annotation] = []
 
-        for _ in range(n_objects):
+        for i in range(n_objects):
             bbox = draw_object(
                 max_attempts=max_attempts,
                 allow_on_border=allow_on_border,
@@ -121,7 +121,7 @@ def make_objects(
             annotations.append(
                 Annotation(
                     bbox=bbox,
-                    label="1",
+                    label=f"{i % 10}",
                     score=0.0,
                 )
             )
@@ -141,7 +141,8 @@ def box_to_pixels(bbox, w, h):
     cy = (py1 + py2) // 2
     bw = px2 - px1
     bh = py2 - py1
-    return cx, cy, bw, bh
+
+    return px1, py1, px2, py2, cx, cy, bw, bh
 
 
 def circle(frame, bbox, label, color, thickness):
