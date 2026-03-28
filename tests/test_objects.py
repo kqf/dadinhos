@@ -7,6 +7,7 @@ from detasks.objects import (
     distribution_count,
     distribution_size,
     make_objects,
+    render_sample,
 )
 
 
@@ -41,7 +42,9 @@ def test_objects():
     )
     # sourcery skip: no-loop-in-tests
     for sample in samples:
-        image = plot(np.full((480, 640, 3), 255, dtype=np.uint8), sample)
+        image = np.full((480, 640, 3), 255, dtype=np.uint8)
+        image = render_sample(image, sample)
+        image = plot(image, sample=sample)
         cv2.imshow("Sample", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
