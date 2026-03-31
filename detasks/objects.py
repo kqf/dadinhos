@@ -168,6 +168,7 @@ def circle(frame, bbox, label, color, thickness):
 
 
 def cross(frame, bbox, label, color, thickness):
+    thickness = max(2, thickness)
     h, w = frame.shape[:2]
     px1, py1, px2, py2, cx, cy, bw, bh = box_to_pixels(bbox, w, h)
 
@@ -218,7 +219,7 @@ def render_sample(
     sample: Sample[Annotation],
     color_map: dict[int, tuple[int, int, int]] | None = None,
     thickness: int = 2,
-    fill: bool = False,
+    fill: bool = True,
 ):
     def get_color(label: int):
         if color_map and label in color_map:
