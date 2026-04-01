@@ -133,7 +133,10 @@ def make_objects(
                 )
             )
 
-        output.append(Sample(file_name=f"{i}.png", annotations=annotations))
+    cx = (px1 + px2) // 2
+    cy = (py1 + py2) // 2
+    bw = px2 - px1
+    bh = py2 - py1
 
     return output
 
