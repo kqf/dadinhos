@@ -133,10 +133,7 @@ def make_objects(
                     score=0.0,
                 )
             )
-
-def box_to_pixels(bbox, w, h):
-    x1, y1, x2, y2 = bbox
-
+        output.append(Sample(file_name=f"{i}.png", annotations=annotations))
     return output
 
 
