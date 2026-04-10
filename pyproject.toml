@@ -46,13 +46,9 @@ dynamic = ["version"]
 description = "Play with the object detection data"
 dependencies = [
     "opencv-python",
-    "numpy<2",
-    "torch",
-    "torchvision",
+    "numpy",
     "dacite",
     "dataclasses-json",
-    "mean-average-precision",
-    "toolz",
 ]
 readme = "README.rst"
 
