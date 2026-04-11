@@ -56,6 +56,9 @@ def test_objects():
         image = np.full((480, 640, 3), 255, dtype=np.uint8)
         image = render_sample(image, sample)
         image = plot(image, sample=sample)
+        # sourcery skip: no-conditionals-in-tests
+        if headless:
+            continue
         cv2.imshow("Sample", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
