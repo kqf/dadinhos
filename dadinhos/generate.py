@@ -5,6 +5,7 @@ import random
 from dataclasses import dataclass
 from typing import Any, Callable, Generic, TypeVar
 
+import click
 import cv2
 import numpy as np
 from dacite import Config, from_dict
@@ -319,3 +320,12 @@ def make_detection_task(
         image = render_sample(image, sample)
         cv2.imwrite(str(images / f"{i}.png"), image)
     return annotations
+
+
+@click.command()
+@click.option("--path", type=click.Path(path_type=pathlib.Path))
+@click.option("--samples", type=int, default=1000)
+@click.option("--h", type=int, default=480)
+@click.option("--w", type=int, default=640)
+def make_binary(path, samples, h, w):
+    make_detection_task(path / "annotations.json", (h, w), n_classes=samples)
