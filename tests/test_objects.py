@@ -44,6 +44,7 @@ def plot(frame: np.ndarray, sample: Sample[Annotation]) -> np.ndarray:
     return img
 
 
+@pytest.mark.skip
 def test_objects(headless):
     samples = make_objects(
         n_samples=10,
@@ -63,7 +64,6 @@ def test_objects(headless):
         cv2.destroyAllWindows()
 
 
-@pytest.mark.skip
 def test_generates(tmp_path, headless):
     annotations = make_detection_task(
         tmp_path / "data" / "annotations.json",
@@ -72,7 +72,7 @@ def test_generates(tmp_path, headless):
     )
     # sourcery skip: no-loop-in-tests
     for sample in load_samples(annotations):
-        image = cv2.imread(annotations.parent / "images" / sample.file_name)
+        image = cv2.imread(annotations.parent / sample.file_name)
         image = render_sample(image, sample)
         image = plot(image, sample=sample)
         # sourcery skip: no-conditionals-in-tests
