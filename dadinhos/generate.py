@@ -18,7 +18,7 @@ RelativeXYXY = tuple[float, float, float, float]
 @dataclass
 class Annotation:
     bbox: RelativeXYXY
-    label: int
+    label: str
     score: float
 
 
@@ -170,7 +170,7 @@ def make_objects(
             annotations.append(
                 Annotation(
                     bbox=bbox,
-                    label=i % n_classes,
+                    label=str(i % n_classes),
                     score=0.0,
                 )
             )
@@ -278,11 +278,11 @@ def render_sample(
         )
 
     for ann in sample.annotations:
-        frame = _SHAPES.get(ann.label, ngon)(
+        frame = _SHAPES.get(int(ann.label), ngon)(
             frame,
             ann.bbox,
             ann.label,
-            get_color(ann.label),
+            get_color(int(ann.label)),
             thickness=-1 if fill else thickness,
         )
 
