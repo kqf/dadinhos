@@ -281,7 +281,7 @@ def render_sample(
         frame = _SHAPES.get(int(ann.label), ngon)(
             frame,
             ann.bbox,
-            ann.label,
+            int(ann.label),
             get_color(int(ann.label)),
             thickness=-1 if fill else thickness,
         )
