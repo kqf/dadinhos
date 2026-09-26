@@ -326,9 +326,11 @@ def make_detection_task(
 
 
 @click.command()
-@click.option("--path", type=click.Path(path_type=pathlib.Path))
+@click.option(
+    "--path", type=click.Path(path_type=pathlib.Path), required=True
+)
 @click.option("--samples", type=int, default=1000)
 @click.option("--h", type=int, default=480)
 @click.option("--w", type=int, default=640)
 def make_binary(path, samples, h, w):
-    make_detection_task(path / "annotations.json", (h, w), n_classes=samples)
+    make_detection_task(path / "annotations.json", (h, w), n_samples=samples)
