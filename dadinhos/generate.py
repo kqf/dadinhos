@@ -155,7 +155,7 @@ def make_objects(
         n_objects = draw_count()
         annotations: list[Annotation] = []
 
-        for i in range(n_objects):
+        for j in range(n_objects):
             bbox = draw_object(
                 max_attempts=max_attempts,
                 allow_on_border=allow_on_border,
@@ -170,7 +170,7 @@ def make_objects(
             annotations.append(
                 Annotation(
                     bbox=bbox,
-                    label=str(i % n_classes),
+                    label=str(j % n_classes),
                     score=0.0,
                 )
             )
