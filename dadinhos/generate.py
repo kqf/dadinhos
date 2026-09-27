@@ -320,6 +320,8 @@ def make_detection_task(
         fname = frames / f"{i}.png"
         cv2.imwrite(str(fname), image)
         sample.file_name = str(fname.relative_to(annotations.parent))
+        for a in sample.annotations:
+            a.bbox = tuple(min(max(v, 0.0), 1.0) for v in a.bbox)  # type: ignore
 
     save_samples(annotations, samples)
     return annotations
