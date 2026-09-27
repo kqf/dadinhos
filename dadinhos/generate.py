@@ -51,8 +51,7 @@ def deserialize(
 def load_samples(path: pathlib.Path | str) -> list[Sample[Annotation]]:
     with open(path) as f:
         df = json.load(f)
-    samples = [deserialize(x, Sample[Annotation]) for x in df]
-    return [s for s in samples if s.annotations]
+    return [deserialize(x, Sample[Annotation]) for x in df]
 
 
 def _iou(box: np.ndarray, boxes: np.ndarray) -> np.ndarray:
